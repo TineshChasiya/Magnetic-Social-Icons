@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium Magnetic Social Icons</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* ==========================================================================
+           1. DESIGN SYSTEM & RESET
+           ========================================================================== */
+        :root {
+            --bg-color: #030303;
+            --card-bg: rgba(10, 10, 10, 0.4);
+            --card-border: rgba(255, 255, 255, 0.04);
+            --icon-bg: rgba(255, 255, 255, 0.03);
+            --icon-border: rgba(255, 255, 255, 0.08);
+            --text-color: #f5f5f7;
+            --text-muted: #86868b;
+            
+            /* Custom easing for standard transitions */
+            --ease-premium: cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* ==========================================================================
+           2. AMBIENT LIGHTING & BACKGROUND
+           ========================================================================== */
+        /* Deep ambient mesh gradients behind the interface */
+        .ambient-glow {
+            position: absolute;
+            width: 800px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, rgba(168, 85, 247, 0.08) 40%, rgba(0,0,0,0) 70%);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 0;
+            pointer-events: none;
+            filter: blur(40px);
+        }
+
+        .ambient-glow::after {
+            content: '';
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.12) 0%, rgba(0,0,0,0) 60%);
+            bottom: 10%;
+            right: 20%;
+            filter: blur(20px);
+        }
+
+        /* Subtle grid overlay for high-tech premium aesthetics */
+        .grid-overlay {
+            position: absolute;
+            inset: 0;
+            background-image: linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+                              linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+            background-size: 40px 40px;
+            background-position: center center;
+            mask-image: radial-gradient(circle at center, black 40%, transparent 80%);
+            -webkit-mask-image: radial-gradient(circle at center, black 40%, transparent 80%);
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        /* ==========================================================================
+           3. CONTAINER & HUD
+           ========================================================================== */
+        .showcase-container {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2.5rem;
+            width: 100%;
+            padding: 2rem;
+        }
+
+        .header-meta {
+            text-align: center;
+            opacity: 0.85;
+            animation: fadeIn 1.2s var(--ease-premium);
+        }
+
+        .header-meta h1 {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.25em;
+            color: var(--text-muted);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .header-meta p {
+            font-size: 0.95rem;
+            color: rgba(255, 255, 255, 0.5);
+            font-weight: 300;
+        }
+
+        /* ==========================================================================
+           4. DOCK / GLASS CARD CONTAINER
+           ========================================================================== */
+        .dock-wrapper {
+            position: relative;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 1.25rem 2rem;
+            border-radius: 24px;
+            backdrop-filter: blur(24px) saturate(180%);
+            -webkit-backdrop-filter: blur(24px) saturate(180%);
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            box-shadow: 
+                0 4px 30px rgba(0, 0, 0, 0.4),
+                inset 0 1px 1px rgba(255, 255, 255, 0.1),
+                inset 0 10px 20px rgba(255, 255, 255, 0.03);
+            animation: slideUp 1s var(--ease-premium);
+        }
+
+        /* Elegant interactive spotlight overlay over the dock */
+        .dock-wrapper::before {
+            content: '';
+            position: absolute;
+            inset: -1px;
+            border-radius: 24px;
+            padding: 1px;
+            background: linear-gradient(rgba(255,255,255,0.1), rgba(255,255,255,0.03));
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+        }
+
+        /* ==========================================================================
+           5. MAGNETIC ICON ITEM
+           ========================================================================== */
+        /* The trigger zone. Extends beyond the item to catch the mouse gracefully */
+        .magnetic-item {
+            position: relative;
+            width: 56px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            outline: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* The actual visible visual container of the icon */
+        .icon-btn {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            border-radius: 16px;
+            background: var(--icon-bg);
+            border: 1px solid var(--icon-border);
+            color: var(--text-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.35rem;
+            text-decoration: none;
+            /* Will be completely controlled by JS on hover, but we assign a basic layout transition */
+            transition: background 0.4s var(--ease-premium), border-color 0.4s var(--ease-premium), box-shadow 0.4s var(--ease-premium);
+            will-change: transform, box-shadow;
+            z-index: 2;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Internal subtle specular reflection gleam */
+        .icon-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 50%;
+            background: linear-gradient(rgba(255, 255, 255, 0.08), transparent);
+            pointer-events: none;
+            z-index: 3;
+        }
+
+        /* The glowing element behind each icon that responds to mouse coordinates */
+        .glow-effect {
+            position: absolute;
+            inset: 0;
+            border-radius: 16px;
+            background: radial-gradient(circle 35px at var(--glow-x, 50%) var(--glow-y, 50%), var(--glow-color, rgba(255, 255, 255, 0.15)), transparent 100%);
+            opacity: 0;
+            transition: opacity 0.4s var(--ease-premium);
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        /* ==========================================================================
+           6. MICRO-INTERACTIONS & HOVER STATES
+           ========================================================================== */
+        .magnetic-item:hover .icon-btn {
+            background: rgba(255, 255, 255, 0.06);
+            border-color: rgba(255, 255, 255, 0.2);
+            color: #ffffff;
+            box-shadow: 
+                0 10px 25px rgba(0, 0, 0, 0.4),
+                0 0 20px var(--glow-shadow, rgba(255, 255, 255, 0.05)),
+                inset 0 1px 1px rgba(255, 255, 255, 0.2);
+        }
+
+        .magnetic-item:hover .glow-effect {
+            opacity: 1;
+        }
+
+        /* Smooth CSS fallback translation for icon content scaling up */
+        .icon-btn i {
+            transition: transform 0.4s var(--ease-premium), color 0.3s;
+            pointer-events: none;
+            display: inline-block;
+            will-change: transform;
+        }
+
+        .magnetic-item:hover .icon-btn i {
+            transform: scale(1.12);
+        }
+
+        /* Brand Color Profiles Mapping passed dynamically via data-attributes */
+        .magnetic-item[data-brand="github"]   { --glow-color: rgba(240, 246, 252, 0.18); --glow-shadow: rgba(240, 246, 252, 0.15); }
+        .magnetic-item[data-brand="x"]        { --glow-color: rgba(255, 255, 255, 0.18); --glow-shadow: rgba(255, 255, 255, 0.15); }
+        .magnetic-item[data-brand="linkedin"] { --glow-color: rgba(10, 102, 194, 0.35);  --glow-shadow: rgba(10, 102, 194, 0.25); }
+        .magnetic-item[data-brand="instagram"]{ --glow-color: rgba(225, 48, 108, 0.3);   --glow-shadow: rgba(225, 48, 108, 0.2); }
+        .magnetic-item[data-brand="dribbble"] { --glow-color: rgba(234, 76, 137, 0.3);   --glow-shadow: rgba(234, 76, 137, 0.2); }
+        .magnetic-item[data-brand="behance"]  { --glow-color: rgba(0, 87, 255, 0.35);    --glow-shadow: rgba(0, 87, 255, 0.25); }
+
+        .magnetic-item:hover[data-brand="github"] .icon-btn   { color: #f0f6fc; }
+        .magnetic-item:hover[data-brand="x"] .icon-btn        { color: #ffffff; }
+        .magnetic-item:hover[data-brand="linkedin"] .icon-btn { color: #0a66c2; }
+        .magnetic-item:hover[data-brand="instagram"] .icon-btn{ color: #e1306c; }
+        .magnetic-item:hover[data-brand="dribbble"] .icon-btn { color: #ea4c89; }
+        .magnetic-item:hover[data-brand="behance"] .icon-btn  { color: #0057ff; }
+
+        /* ==========================================================================
+           7. ACTIVE CLICK STATE (RIPPLE / PRESS EFFECT)
+           ========================================================================== */
+        /* Dynamic scale down when user presses down on an icon */
+        .icon-btn:active {
+            transform: scale(0.88) !important;
+            transition: transform 0.08s ease-out !important;
+        }
+
+        /* Material / Apple style dark luxury web ripple element */
+        .ripple {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.25);
+            border-radius: 50%;
+            transform: scale(0);
+            pointer-events: none;
+            animation: ripple-effect 0.5s ease-out;
+            z-index: 4;
+        }
+
+        @keyframes ripple-effect {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+
+        /* Entrance Intro Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 0.85; transform: translateY(0); }
+        }
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ==========================================================================
+           8. RESPONSIVE DESIGN (BREAKPOINTS)
+           ========================================================================== */
+        @media (max-width: 768px) {
+            .dock-wrapper {
+                padding: 1rem 1.5rem;
+                gap: 1rem;
+                border-radius: 20px;
+            }
+            .magnetic-item {
+                width: 48px;
+                height: 48px;
+            }
+            .icon-btn {
+                border-radius: 12px;
+                font-size: 1.15rem;
+            }
+            .ambient-glow {
+                width: 500px;
+                height: 350px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .dock-wrapper {
+                padding: 0.75rem 1rem;
+                gap: 0.65rem;
+                border-radius: 16px;
+                max-width: 92%;
+            }
+            .magnetic-item {
+                width: 42px;
+                height: 42px;
+            }
+            .icon-btn {
+                border-radius: 10px;
+                font-size: 1rem;
+            }
+            .header-meta h1 {
+                font-size: 0.75rem;
+            }
+            .header-meta p {
+                font-size: 0.85rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="ambient-glow"></div>
+    <div class="grid-overlay"></div>
+
+    <div class="showcase-container">
+        
+        <div class="header-meta">
+            <h1>Interaction System</h1>
+            <p>Physics-Based Magnetic Orbitals</p>
+        </div>
+
+        <div class="dock-wrapper">
+            
+            <div class="magnetic-item" data-brand="github">
+                <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="icon-btn" aria-label="GitHub">
+                    <span class="glow-effect"></span>
+                    <i class="fa-brands fa-github"></i>
+                </a>
+            </div>
+
+            <div class="magnetic-item" data-brand="x">
+                <a href="https://x.com" target="_blank" rel="noopener noreferrer" class="icon-btn" aria-label="X (formerly Twitter)">
+                    <span class="glow-effect"></span>
+                    <i class="fa-brands fa-x"></i>
+                </a>
+            </div>
+
+            <div class="magnetic-item" data-brand="linkedin">
+                <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" class="icon-btn" aria-label="LinkedIn">
+                    <span class="glow-effect"></span>
+                    <i class="fa-brands fa-linkedin-in"></i>
+                </a>
+            </div>
+
+            <div class="magnetic-item" data-brand="instagram">
+                <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="icon-btn" aria-label="Instagram">
+                    <span class="glow-effect"></span>
+                    <i class="fa-brands fa-instagram"></i>
+                </a>
+            </div>
+
+            <div class="magnetic-item" data-brand="dribbble">
+                <a href="https://dribbble.com" target="_blank" rel="noopener noreferrer" class="icon-btn" aria-label="Dribbble">
+                    <span class="glow-effect"></span>
+                    <i class="fa-brands fa-dribbble"></i>
+                </a>
+            </div>
+
+            <div class="magnetic-item" data-brand="behance">
+                <a href="https://behance.net" target="_blank" rel="noopener noreferrer" class="icon-btn" aria-label="Behance">
+                    <span class="glow-effect"></span>
+                    <i class="fa-brands fa-behance"></i>
+                </a>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        const magneticItems = document.querySelectorAll('.magnetic-item');
+
+        magneticItems.forEach(item => {
+            const btn = item.querySelector('.icon-btn');
+            const icon = item.querySelector('i');
+            
+            // Physics Simulation variables
+            let mouseX = 0, mouseY = 0;      // Target position
+            let currentX = 0, currentY = 0;  // Current physics step position
+            let iconX = 0, iconY = 0;        // Nested internal icon position
+            let rotation = 0;                // Dynamic rotation angle
+            let isHovered = false;
+
+            // Spring Physics constants for fluid premium inertia
+            const stiffness = 0.08; 
+            const damping = 0.82;   
+            let velocityX = 0;
+            let velocityY = 0;
+
+            // Track internal bounds
+            let itemBounds = null;
+
+            function updateBounds() {
+                itemBounds = item.getBoundingClientRect();
+            }
+
+            // Recalculate component positions on viewport mutations or scrolls safely
+            window.addEventListener('resize', updateBounds);
+            window.addEventListener('scroll', updateBounds);
+            updateBounds();
+
+            // Mouse Move capturing tracking vector offset
+            item.addEventListener('mousemove', (e) => {
+                if (!itemBounds) updateBounds();
+                
+                isHovered = true;
+
+                // Center coordinates of the structural magnetic hit box
+                const centerX = itemBounds.left + itemBounds.width / 2;
+                const centerY = itemBounds.top + itemBounds.height / 2;
+
+                // Absolute delta between cursor and epicenter
+                const deltaX = e.clientX - centerX;
+                const deltaY = e.clientY - centerY;
+
+                // Compute interactive ambient gloss coordinates
+                const btnBounds = btn.getBoundingClientRect();
+                const glowX = ((e.clientX - btnBounds.left) / btnBounds.width) * 100;
+                const glowY = ((e.clientY - btnBounds.top) / btnBounds.height) * 100;
+                btn.style.setProperty('--glow-x', `${glowX}%`);
+                btn.style.setProperty('--glow-y', `${glowY}%`);
+
+                // Magnetic attraction pull distance constraints
+                // Item follows mouse down to 45% of real physical offset
+                mouseX = deltaX * 0.45;
+                mouseY = deltaY * 0.45;
+
+                // Slight subtle independent float offset for the child symbol icon
+                iconX = deltaX * 0.15;
+                iconY = deltaY * 0.15;
+
+                // Luxury slight dynamic twist orientation based on entry path
+                rotation = (deltaX * 0.06); 
+            });
+
+            // Smooth Reset when cursor detaches from magnetic threshold area
+            item.addEventListener('mouseleave', () => {
+                isHovered = false;
+                mouseX = 0;
+                mouseY = 0;
+                iconX = 0;
+                iconY = 0;
+                rotation = 0;
+            });
+
+            // Advanced Click Ripple micro animation handler
+            btn.addEventListener('click', function(e) {
+                // Delete previous clicks if user double clicks incredibly rapidly
+                const existingRipple = this.querySelector('.ripple');
+                if (existingRipple) existingRipple.remove();
+
+                const circle = document.createElement('span');
+                const diameter = Math.max(this.clientWidth, this.clientHeight);
+                const radius = diameter / 2;
+
+                const rect = this.getBoundingClientRect();
+                circle.style.width = circle.style.height = `${diameter}px`;
+                circle.style.left = `${e.clientX - rect.left - radius}px`;
+                circle.style.top = `${e.clientY - rect.top - radius}px`;
+                circle.classList.add('ripple');
+
+                this.appendChild(circle);
+                
+                // Perform micro haptic frame pushback animation natively
+                // Yielding an instant spring compression signature elastic bounce back
+                this.style.transform = `translate3d(${currentX}px, ${currentY}px, 0) scale(0.9) rotate(${rotation}deg)`;
+            });
+
+            // 60fps Physics loop engine driven via GPU-Accelerated requestAnimationFrame Layer
+            function animatePhysics() {
+                if (isHovered) {
+                    // Hooke's Law formula execution: Force = Stiffness * Overlap Error
+                    const forceX = (mouseX - currentX) * stiffness;
+                    const forceY = (mouseY - currentY) * stiffness;
+
+                    // Update velocity vectors with drag resistance damping
+                    velocityX = (velocityX + forceX) * damping;
+                    velocityY = (velocityY + forceY) * damping;
+
+                    // Transition state incrementation
+                    currentX += velocityX;
+                    currentY += velocityY;
+                } else {
+                    // Quick return to structural baseline utilizing lightweight return easing
+                    currentX += (mouseX - currentX) * 0.14;
+                    currentY += (mouseY - currentY) * 0.14;
+                }
+
+                // Inject 3D matrix matrix arrays to guarantee browser triggers hardware compositing layers (Zero layout thrashing)
+                btn.style.transform = `translate3d(${currentX}px, ${currentY}px, 0) rotate(${rotation}deg)`;
+                icon.style.transform = `translate3d(${iconX}px, ${iconY}px, 0)`;
+
+                requestAnimationFrame(animatePhysics);
+            }
+
+            // Fire optimization loop execution
+            requestAnimationFrame(animatePhysics);
+        });
+    </script>
+</body>
+</html>
